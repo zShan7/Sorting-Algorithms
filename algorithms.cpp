@@ -6,6 +6,7 @@ using namespace std;
 //MALIK ZEESHAN AHMAD
 //307629
 //--------------
+int partitions = 0;
 void display(int sortedArray[], int size)
 {
    for (int i = 0; i < size; i++)
@@ -126,6 +127,54 @@ void mergeSort(int *a, int first, int last)
    }
 }
 
+int partition(int *a, int p, int r)
+{
+   //implementing partition method given in lab
+   partitions++;
+   //inc =rementing partition because a new partittons has occured
+   int x, i, j;
+   //choosing pivot as left most element
+   x = a[p];
+   //variables to loop through array to sort acc to pivot
+   i = p - 1;
+   j = r + 1;
+   while (true)
+   {
+      //check which element is less than our pivot on right side
+      do
+      {
+         j = j - 1;
+      } while (a[j] > x);
+      //find element on left that is greater than the one pivit
+      do
+      {
+         i = i + 1;
+      } while (a[i] < x);
+      //now swapping the elements that were bigger than that pivot on left to right's smaller
+      if (i < j)
+      {
+         swap(a[i], a[j]);
+      }
+      else
+      {
+         //if i>=j i.e sorting is done, break the loop and send j as new pivot variable
+         return j;
+      }
+   }
+}
+void quickSort(int *a, int p, int r)
+{
+   int q;
+   if (p < r)
+   {
+      //  finding pratition
+      q = partition(a, p, r);
+      //quick sort on left side of partition
+      quickSort(a, p, q);
+      //quick sort on right side of partition
+      quickSort(a, q + 1, r);
+   }
+}
 int *createAndFillArray(int size)
 {
    //filling the array with random numbers
@@ -153,7 +202,7 @@ int main()
    cout << endl
         << "sorted ascending........BEST CASE" << endl
         << endl;
-   for (int i = 100; i <= 100000; i *= 10)
+   for (int i = 100; i <= 10000; i *= 10)
    {
       num = createAndFillArray(i);
       //sorting the array
@@ -173,7 +222,7 @@ int main()
         << "sorted descending...    WORST CASE" << endl
         << endl;
 
-   for (int i = 100; i <= 100000; i *= 10)
+   for (int i = 100; i <= 10000; i *= 10)
    {
       num = createAndFillArray(i);
       //sorting the array
@@ -195,7 +244,7 @@ int main()
    cout << endl
         << "sorted ascending........BEST CASE" << endl
         << endl;
-   for (int i = 100; i <= 100000; i *= 10)
+   for (int i = 100; i <= 10000; i *= 10)
    {
       num = createAndFillArray(i);
       //sorting the array
@@ -215,7 +264,7 @@ int main()
         << "sorted descending.......WORST CASE" << endl
         << endl;
 
-   for (int i = 100; i <= 100000; i *= 10)
+   for (int i = 100; i <= 10000; i *= 10)
    {
       num = createAndFillArray(i);
       //sorting the array
@@ -237,7 +286,7 @@ int main()
    cout << endl
         << "sorted ascending........BEST CASE" << endl
         << endl;
-   for (int i = 100; i <= 100000; i *= 10)
+   for (int i = 100; i <= 10000; i *= 10)
    {
       num = createAndFillArray(i);
       //sorting the array
@@ -257,7 +306,7 @@ int main()
         << "sorted descending........WORST CASE" << endl
         << endl;
 
-   for (int i = 100; i <= 100000; i *= 10)
+   for (int i = 100; i <= 10000; i *= 10)
    {
       num = createAndFillArray(i);
       //sorting the array
@@ -279,7 +328,7 @@ int main()
    cout << endl
         << "sorted ascending........BEST CASE" << endl
         << endl;
-   for (int i = 100; i <= 100000; i *= 10)
+   for (int i = 100; i <= 10000; i *= 10)
    {
       num = createAndFillArray(i);
       //sorting the array
@@ -299,7 +348,7 @@ int main()
         << "sorted descending........WORST CASE" << endl
         << endl;
 
-   for (int i = 100; i <= 100000; i *= 10)
+   for (int i = 100; i <= 10000; i *= 10)
    {
       num = createAndFillArray(i);
       //sorting the array
@@ -308,6 +357,48 @@ int main()
       startingTime = clock();
       //the actual algo called
       mergeSort(num, 0, i - 1);
+      //stop time recorded
+      endingTime = clock();
+      //calculating the tame taken by sub end-start and then getting seconds
+      double timeTaken = double(endingTime - startingTime) / double(CLOCKS_PER_SEC);
+      //displaying time taken
+      cout << "time taken by " << i << " elements -->" << fixed << timeTaken << endl;
+   }
+   //-----------------------------------merge sort---------------------------------------
+   cout << endl
+        << "--------------------------------  QUICK SORT  ---------------------- " << endl;
+   cout << endl
+        << "sorted ascending........BEST CASE" << endl
+        << endl;
+   for (int i = 100; i <= 10000; i *= 10)
+   {
+      num = createAndFillArray(i);
+      //sorting the array
+      sort(num, num + i);
+      //now starting time recorded for sorted array
+      startingTime = clock();
+      //the actual algo called
+      quickSort(num, 0, i - 1);
+      //stop time recorded
+      endingTime = clock();
+      //calculating the tame taken by sub end-start and then getting seconds
+      double timeTaken = double(endingTime - startingTime) / double(CLOCKS_PER_SEC);
+      //displaying time taken
+      cout << "time taken by     " << i << " elements -->" << fixed << timeTaken << endl;
+   }
+   cout << endl
+        << "sorted descending........WORST CASE" << endl
+        << endl;
+
+   for (int i = 100; i <= 10000; i *= 10)
+   {
+      num = createAndFillArray(i);
+      //sorting the array
+      sort(num, num + i, greater<int>());
+      //now starting time recorded for sorted array
+      startingTime = clock();
+      //the actual algo called
+      quickSort(num, 0, i - 1);
       //stop time recorded
       endingTime = clock();
       //calculating the tame taken by sub end-start and then getting seconds
